@@ -408,7 +408,27 @@ table _Medidas
 			    & "<li><b>Repassar ou renegociar a comissão do " & _piorNome & ".</b> Margem de " & FORMAT(_piorM * 100, _f1, "pt-BR") & "% contra " & FORMAT(_outrosM * 100, _f1, "pt-BR") & "% nos demais canais.</li>"
 			    & "</ol>"
 			
-			/* ---------- CSS (medida separada para facilitar ajustes) ---------- */
+			/* ---------- KPIs com verso (gira no hover: definição + dado de contexto) ---------- */
+			VAR _ped1 = CALCULATE([Pedidos], REMOVEFILTERS(dCalendario), dCalendario[Ano] = _anoFim)
+			VAR _tk1 = CALCULATE([Ticket Médio], REMOVEFILTERS(dCalendario), dCalendario[Ano] = _anoFim)
+			VAR _pfg1 = CALCULATE([% Pedidos Frete Grátis], REMOVEFILTERS(dCalendario), dCalendario[Ano] = _anoFim)
+			VAR _devPior = MAXX(_pior, [@d])
+			VAR _devOutros = DIVIDE(SUMX(FILTER(_canais, fVendas[Canal] <> _piorNome), [@r] * [@d]), SUMX(FILTER(_canais, fVendas[Canal] <> _piorNome), [@r]))
+			VAR _ico = "<i class='fx'>↻</i>"
+			VAR _card = "<div class='kc'><div class='fl'><div class='fr'>"
+			VAR _kpis =
+			    "<div class='kp'>"
+			    & _card & _ico & "<div class='lb'>RECEITA " & _anoFim & "</div><div class='v'>R$ " & FORMAT(_rec1 / 1000000, "0.00", "pt-BR") & " Mi</div>" & _bRec & "</div>"
+			    & "<div class='bk'><div class='lb'>RECEITA LÍQUIDA</div><p>Itens entregues, já sem descontos, devoluções e cancelamentos.</p><p><b>" & FORMAT(_ped1, "#,##0", "pt-BR") & " pedidos</b> · ticket médio <b>R$ " & FORMAT(_tk1, "#,##0", "pt-BR") & "</b></p></div></div></div>"
+			    & _card & _ico & "<div class='lb'>MARGEM DE CONTRIBUIÇÃO</div><div class='v'>" & FORMAT(_mg1 * 100, "0.0", "pt-BR") & "%</div>" & _bMg & "</div>"
+			    & "<div class='bk'><div class='lb'>MARGEM DE CONTRIBUIÇÃO</div><p>Receita − CMV − comissão do marketplace − frete subsidiado.</p><p>Cada 1 p.p. vale <b>R$ " & FORMAT(_rec1 / 100 / 1000, "#,##0", "pt-BR") & " mil</b> por ano.</p></div></div></div>"
+			    & _card & _ico & "<div class='lb'>FRETE SUBSIDIADO</div><div class='v'>R$ " & FORMAT(_fr1 / 1000, "#,##0", "pt-BR") & " mil</div>" & _bFr & "</div>"
+			    & "<div class='bk'><div class='lb'>FRETE SUBSIDIADO</div><p>Frete pago pela LUMA e não cobrado do cliente.</p><p><b>" & FORMAT(_pfg1 * 100, "0", "pt-BR") & "% dos pedidos</b> saem com frete grátis; " & _topCatNome & " gera <b>" & FORMAT(_topCatPct * 100, "0", "pt-BR") & "%</b> do custo.</p></div></div></div>"
+			    & _card & _ico & "<div class='lb'>TAXA DE DEVOLUÇÃO</div><div class='v'>" & FORMAT(_dv1 * 100, "0.0", "pt-BR") & "%</div>" & _bDv & "</div>"
+			    & "<div class='bk'><div class='lb'>TAXA DE DEVOLUÇÃO</div><p>Valor devolvido ÷ receita vendida.</p><p>" & _piorNome & " devolve <b>" & FORMAT(_devPior * 100, "0.0", "pt-BR") & "%</b> contra " & FORMAT(_devOutros * 100, "0.0", "pt-BR") & "% nos demais canais.</p></div></div></div>"
+			    & "</div>"
+			
+			/* ---------- CSS ---------- */
 			VAR _css = [_CSS Diagnostico]
 			
 			/* ---------- HTML ---------- */
@@ -416,12 +436,7 @@ table _Medidas
 			    "<div class='pg'>"
 			    & "<div class='hero'>" & IF(_hero <> "", "<img src='" & _hero & "' alt=''>", "") & "<div class='ov'></div>"
 			    & "<div class='htx'><div class='brand'>LUMA<span>DIAGNÓSTICO · " & _anoIni & "–" & _anoFim & "</span></div><h1>" & _titulo & "</h1><p>" & _sub & "</p></div></div>"
-			    & "<div class='kp'>"
-			    & "<div class='kc'><div class='lb'>RECEITA " & _anoFim & "</div><div class='v'>R$ " & FORMAT(_rec1 / 1000000, "0.00", "pt-BR") & " Mi</div>" & _bRec & "</div>"
-			    & "<div class='kc'><div class='lb'>MARGEM DE CONTRIBUIÇÃO</div><div class='v'>" & FORMAT(_mg1 * 100, "0.0", "pt-BR") & "%</div>" & _bMg & "</div>"
-			    & "<div class='kc'><div class='lb'>FRETE SUBSIDIADO</div><div class='v'>R$ " & FORMAT(_fr1 / 1000, "#,##0", "pt-BR") & " mil</div>" & _bFr & "</div>"
-			    & "<div class='kc'><div class='lb'>TAXA DE DEVOLUÇÃO</div><div class='v'>" & FORMAT(_dv1 * 100, "0.0", "pt-BR") & "%</div>" & _bDv & "</div>"
-			    & "</div>"
+			    & _kpis
 			    & "<div class='row' style='flex:1'>"
 			    & "<div class='cd' style='flex:1.75'><div class='lb'>EVOLUÇÃO MENSAL</div><h2>A receita sobe. A margem desce a escada.</h2>"
 			    & "<div class='lg'><span><i style='background:#e0a476'></i>Receita líquida</span><span><i style='background:#8fd1bd'></i>Margem %</span><span style='color:#f08a6c'><i style='background:#f08a6c;border-radius:50%'></i>Black Friday</span></div>"
@@ -469,7 +484,21 @@ table _Medidas
 			.htx h1 em{font-style:normal;color:#f0b48a}
 			.htx p{font-size:calc(var(--u)*13.5);opacity:.72;max-width:calc(var(--u)*960);font-weight:300;line-height:1.5}
 			.kp{display:flex;gap:calc(var(--u)*12);padding:0 calc(var(--u)*28);margin-top:calc(var(--u)*-40);position:relative;z-index:2;flex:none}
-			.kc{flex:1;background:rgba(32,24,19,.78);backdrop-filter:blur(calc(var(--u)*12));border:1px solid rgba(244,241,236,.1);border-radius:calc(var(--u)*12);padding:calc(var(--u)*11) calc(var(--u)*16)}
+			.kc{flex:1}
+			.fl{position:relative;height:100%}
+			.kc:hover .fl{animation:gira .5s ease-in-out}
+			@keyframes gira{0%{transform:perspective(calc(var(--u)*900)) rotateY(0)}50%{transform:perspective(calc(var(--u)*900)) rotateY(90deg)}100%{transform:perspective(calc(var(--u)*900)) rotateY(0)}}
+			.fr,.bk{background:rgba(32,24,19,.94);border:1px solid rgba(244,241,236,.1);border-radius:calc(var(--u)*12);padding:calc(var(--u)*11) calc(var(--u)*16);height:100%;transition:opacity .12s ease}
+			.fr{position:relative}
+			.bk{position:absolute;top:0;left:0;right:0;bottom:0;opacity:0;background:linear-gradient(135deg,rgba(224,164,118,.16),rgba(32,24,19,.96) 70%);border-color:rgba(224,164,118,.35);overflow:hidden}
+			.kc:hover .fr{opacity:0}
+			.kc:hover .bk{opacity:1}
+			.kc:hover .fr,.kc:hover .bk{transition:opacity 0s linear .25s}
+			.bk .lb{color:#f0b48a;opacity:.9}
+			.bk p{font-size:calc(var(--u)*11.5);line-height:1.4;opacity:.85;margin-top:calc(var(--u)*4)}
+			.bk p b{color:#f4f1ec;opacity:1}
+			.fx{position:absolute;top:calc(var(--u)*9);right:calc(var(--u)*12);font-style:normal;font-size:calc(var(--u)*13);opacity:.3}
+			.kc:hover .fx{opacity:.6}
 			.lb{font-size:calc(var(--u)*10.5);letter-spacing:.22em;opacity:.55;font-weight:700}
 			.kc .v{font-size:calc(var(--u)*26);font-weight:700;margin:calc(var(--u)*3) 0 calc(var(--u)*2)}
 			.kc span{font-size:calc(var(--u)*12);font-weight:600}
