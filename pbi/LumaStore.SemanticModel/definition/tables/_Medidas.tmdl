@@ -566,6 +566,7 @@ table _Medidas
 			.ac li{font-size:calc(var(--u)*14) !important;line-height:1.5 !important;margin:0 0 calc(var(--u)*10) !important;padding-left:calc(var(--u)*4)}
 			.ac li b{font-size:inherit !important;color:#f4f1ec}
 			.pg > .row:last-child{height:auto !important}
+			.ac::after{content:'Ver categorias →';position:absolute;right:calc(var(--u)*16);top:calc(var(--u)*10);font-size:calc(var(--u)*12);font-weight:700;letter-spacing:.04em;color:#f0b48a;border-bottom:1px solid rgba(240,180,138,.45);padding-bottom:calc(var(--u)*1)}
 			</style>"
 		displayFolder: 9. HTML
 		lineageTag: ac24d540-c24d-4f30-908a-0e254bf05f98
