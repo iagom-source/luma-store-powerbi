@@ -36,21 +36,30 @@ ap.add_argument("--inicio", type=float, default=0)
 ap.add_argument("--duracao", type=float, default=8)
 ap.add_argument("--pingpong", action="store_true", help="toca ida e volta para o loop não ter corte")
 ap.add_argument("--crop", default="", help="recorte FFmpeg antes de redimensionar, ex.: 1600:900:160:180 (largura:altura:x:y)")
+ap.add_argument("--still", action="store_true", help="extrai só um quadro parado (JPEG) no segundo --inicio, em vez de animação")
 a = ap.parse_args()
 
 ffmpeg = shutil.which("ffmpeg") or "ffmpeg"
-saida = RAIZ / "midia" / f"{a.nome}.webp"
+saida = RAIZ / "midia" / f"{a.nome}.{'jpg' if a.still else 'webp'}"
 saida.parent.mkdir(exist_ok=True)
+recorte = f"crop={a.crop}," if a.crop else ""
 
-filtro = (f"crop={a.crop}," if a.crop else "") + f"fps={a.fps},scale={a.largura}:-2:flags=lanczos"
-if a.pingpong:
-    filtro += ",split[a][b];[b]reverse[r];[a][r]concat=n=2:v=1"
-
-subprocess.run([
-    ffmpeg, "-y", "-loglevel", "error", "-ss", str(a.inicio), "-t", str(a.duracao), "-i", a.video,
-    "-filter_complex", filtro, "-an", "-c:v", "libwebp", "-loop", "0",
-    "-quality", str(a.qualidade), "-compression_level", "6", "-preset", "picture", str(saida),
-], check=True)
+if a.still:
+    # qualidade JPEG do FFmpeg: 2 (melhor) a 31 (pior); --qualidade 0-100 é convertida
+    q = max(2, min(31, round(31 - a.qualidade * 0.29)))
+    subprocess.run([
+        ffmpeg, "-y", "-loglevel", "error", "-ss", str(a.inicio), "-i", a.video,
+        "-vf", recorte + f"scale={a.largura}:-2:flags=lanczos", "-frames:v", "1", "-q:v", str(q), str(saida),
+    ], check=True)
+else:
+    filtro = recorte + f"fps={a.fps},scale={a.largura}:-2:flags=lanczos"
+    if a.pingpong:
+        filtro += ",split[a][b];[b]reverse[r];[a][r]concat=n=2:v=1"
+    subprocess.run([
+        ffmpeg, "-y", "-loglevel", "error", "-ss", str(a.inicio), "-t", str(a.duracao), "-i", a.video,
+        "-filter_complex", filtro, "-an", "-c:v", "libwebp", "-loop", "0",
+        "-quality", str(a.qualidade), "-compression_level", "6", "-preset", "picture", str(saida),
+    ], check=True)
 
 b64 = base64.b64encode(saida.read_bytes()).decode()
 partes = [b64[i:i + PEDACO] for i in range(0, len(b64), PEDACO)]
@@ -60,7 +69,8 @@ linhas = []
 if csv_path.exists():
     with open(csv_path, encoding="utf-8") as f:
         linhas = [r for r in csv.DictReader(f) if r["Midia"] != a.nome]
-linhas += [{"Midia": a.nome, "Tipo": "image/webp", "Ordem": i, "Parte": p} for i, p in enumerate(partes, 1)]
+tipo = "image/jpeg" if a.still else "image/webp"
+linhas += [{"Midia": a.nome, "Tipo": tipo, "Ordem": i, "Parte": p} for i, p in enumerate(partes, 1)]
 with open(csv_path, "w", newline="", encoding="utf-8") as f:
     w = csv.DictWriter(f, fieldnames=["Midia", "Tipo", "Ordem", "Parte"])
     w.writeheader()
