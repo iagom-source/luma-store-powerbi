@@ -570,6 +570,204 @@ table _Medidas
 		displayFolder: 9. HTML
 		lineageTag: ac24d540-c24d-4f30-908a-0e254bf05f98
 
+	/// Data URI do quadro parado (JPEG) da faixa de abertura da página Categorias.
+	measure '_Img Hero Cat' =
+			VAR _m = FILTER(ALL(dMidia), dMidia[Midia] = "hero_cat")
+			VAR _tipo = MAXX(_m, dMidia[Tipo])
+			RETURN
+			    IF(
+			        NOT ISEMPTY(_m),
+			        "data:" & _tipo & ";base64," & CONCATENATEX(_m, dMidia[Parte], "", dMidia[Ordem], ASC),
+			        ""
+			    )
+		displayFolder: 9. HTML
+		lineageTag: 21d2aa2b-f3a1-4f69-98c7-d1afa7d227b3
+
+	/// Folha de estilo da página Categorias. Fonte: scripts/dax/CSS_Categorias.dax
+	measure '_CSS Categorias' =
+			"<style>
+			*{box-sizing:border-box;margin:0;padding:0}
+			.pg{--u:min(calc(100vw / 1280),calc(100vh / 720));width:100%;height:100vh;min-height:calc(var(--u)*620);background:#110c09;color:#f4f1ec;font-family:'Segoe UI',system-ui,sans-serif;display:flex;flex-direction:column;overflow:hidden}
+			.hero{position:relative;height:27%;min-height:calc(var(--u)*170);flex:none;overflow:hidden}
+			.hero img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center 45%}
+			.hero .ov{position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(90deg,rgba(17,12,9,.97) 0%,rgba(17,12,9,.85) 45%,rgba(17,12,9,.4) 100%),linear-gradient(180deg,rgba(17,12,9,0) 40%,#110c09 100%)}
+			.htx{position:absolute;left:calc(var(--u)*32);top:calc(var(--u)*24);right:calc(var(--u)*32)}
+			.brand{font-size:calc(var(--u)*11);letter-spacing:.32em;font-weight:700;opacity:.85}
+			.brand span{opacity:.5;font-weight:400;margin-left:calc(var(--u)*10);letter-spacing:.24em}
+			.htx h1{font-size:calc(var(--u)*32);font-weight:700;letter-spacing:-.01em;margin:calc(var(--u)*14) 0 calc(var(--u)*6);max-width:calc(var(--u)*820);line-height:1.15}
+			.htx h1 em{font-style:normal;color:#f0b48a}
+			.htx p{font-size:calc(var(--u)*13.5);opacity:.72;max-width:calc(var(--u)*960);font-weight:300;line-height:1.5}
+			.lb{font-size:calc(var(--u)*10.5);letter-spacing:.22em;opacity:.55;font-weight:700}
+			.up{color:#8fd1bd}.dn{color:#f08a6c}
+			.row{display:flex;gap:calc(var(--u)*12);padding:0 calc(var(--u)*28);min-height:0}
+			.cd{background:rgba(255,248,240,.035);border:1px solid rgba(244,241,236,.08);border-radius:calc(var(--u)*12);padding:calc(var(--u)*14) calc(var(--u)*18);display:flex;flex-direction:column;min-height:0;position:relative}
+			.cd h2{font-size:calc(var(--u)*15.5);font-weight:600;margin:calc(var(--u)*3) 0 calc(var(--u)*4)}
+			.sub2{font-size:calc(var(--u)*11.5);opacity:.55;margin-bottom:calc(var(--u)*8)}
+			.lg{display:flex;gap:calc(var(--u)*16);font-size:calc(var(--u)*11.5);opacity:.7;margin-bottom:calc(var(--u)*2)}
+			.lg i{display:inline-block;width:calc(var(--u)*10);height:calc(var(--u)*10);border-radius:calc(var(--u)*2);margin-right:calc(var(--u)*6);vertical-align:-1px}
+			.lg i.mk2{width:calc(var(--u)*2);height:calc(var(--u)*12);border-radius:0;background:#f4f1ec}
+			.brs{display:flex;flex-direction:column;justify-content:space-around;flex:1}
+			.br{position:relative;display:flex;align-items:center;gap:calc(var(--u)*14);padding:calc(var(--u)*2) calc(var(--u)*8);border-radius:calc(var(--u)*8);line-height:1.2}
+			.br:hover{background:rgba(244,241,236,.05);z-index:5}
+			.bn{width:calc(var(--u)*120);flex:none}
+			.bn b{display:block;font-size:calc(var(--u)*14);font-weight:600}
+			.bn span{font-size:calc(var(--u)*11);opacity:.5}
+			.bt{position:relative;flex:1;height:calc(var(--u)*14);background:rgba(244,241,236,.07);border-radius:calc(var(--u)*3)}
+			.bb{position:absolute;left:0;top:0;bottom:0;border-radius:calc(var(--u)*3);background:linear-gradient(90deg,rgba(143,209,189,.55),#8fd1bd)}
+			.bm{position:absolute;top:calc(var(--u)*-4);bottom:calc(var(--u)*-4);width:calc(var(--u)*2.5);background:#f4f1ec;border-radius:1px;box-shadow:0 0 0 calc(var(--u)*1.5) #110c09}
+			.br.hi .bb{background:linear-gradient(90deg,rgba(240,138,108,.55),#f08a6c)}
+			.br.hi .bn b{color:#f0b48a}
+			.bv{width:calc(var(--u)*70);flex:none;text-align:right}
+			.bv b{display:block;font-size:calc(var(--u)*16)}
+			.bv span{font-size:calc(var(--u)*11.5);font-weight:700}
+			.bp{width:calc(var(--u)*92);flex:none;text-align:right}
+			.bp b{display:block;font-size:calc(var(--u)*15)}
+			.bp span{font-size:calc(var(--u)*10.5);opacity:.5}
+			.br.hi .bp b{color:#f08a6c}
+			.tip{position:absolute;left:calc(var(--u)*140);bottom:calc(100% - calc(var(--u)*4));width:calc(var(--u)*250);background:rgba(24,18,14,.97);border:1px solid rgba(244,241,236,.14);border-radius:calc(var(--u)*10);padding:calc(var(--u)*10) calc(var(--u)*12);opacity:0;pointer-events:none;transition:opacity .15s;box-shadow:0 calc(var(--u)*10) calc(var(--u)*30) rgba(0,0,0,.5)}
+			.br.dw .tip{bottom:auto;top:calc(100% - calc(var(--u)*4))}
+			.br:hover .tip{opacity:1}
+			.t1{font-size:calc(var(--u)*13);font-weight:700;letter-spacing:.06em;margin-bottom:calc(var(--u)*6)}
+			.tl{display:flex;justify-content:space-between;font-size:calc(var(--u)*12);padding:calc(var(--u)*2) 0}
+			.tl span{opacity:.6}
+			.tl b{color:#f0b48a}
+			.frs{display:flex;flex-direction:column;justify-content:space-around;flex:1}
+			.fq{display:flex;align-items:center;gap:calc(var(--u)*10)}
+			.fn{width:calc(var(--u)*96);flex:none;font-size:calc(var(--u)*13)}
+			.ft{flex:1;height:calc(var(--u)*10);background:rgba(244,241,236,.07);border-radius:calc(var(--u)*3)}
+			.ft i{display:block;height:100%;border-radius:calc(var(--u)*3);background:rgba(224,164,118,.55)}
+			.fq b{width:calc(var(--u)*52);text-align:right;font-size:calc(var(--u)*14)}
+			.fq em{width:calc(var(--u)*86);font-style:normal;font-size:calc(var(--u)*10.5);opacity:.5;text-align:right}
+			.fq.hi .ft i{background:#f08a6c}
+			.fq.hi b,.fq.hi .fn{color:#f08a6c;font-weight:700}
+			.nota{font-size:calc(var(--u)*12);line-height:1.5;opacity:.75;margin-top:calc(var(--u)*10);padding-top:calc(var(--u)*10);border-top:1px solid rgba(244,241,236,.08)}
+			.nota b{color:#f4f1ec;opacity:1}
+			.bd{display:flex;align-items:center;gap:calc(var(--u)*26);margin:calc(var(--u)*12) calc(var(--u)*28) calc(var(--u)*16);padding:calc(var(--u)*16) calc(var(--u)*24);border-radius:calc(var(--u)*12);background:linear-gradient(90deg,rgba(240,138,108,.14),rgba(255,248,240,.03) 55%);border:1px solid rgba(240,138,108,.3);flex:none}
+			.bx{flex:1.5}
+			.bx h3{font-size:calc(var(--u)*19);font-weight:700;line-height:1.25}
+			.bx h3 em{font-style:normal;color:#f0b48a}
+			.bx p{font-size:calc(var(--u)*12.5);opacity:.7;margin-top:calc(var(--u)*4);line-height:1.45}
+			.bs{flex:1;padding-left:calc(var(--u)*22);border-left:1px solid rgba(244,241,236,.12)}
+			.bs span{display:block;font-size:calc(var(--u)*10);letter-spacing:.2em;opacity:.55;font-weight:700}
+			.bs b{display:block;font-size:calc(var(--u)*22);margin:calc(var(--u)*3) 0 calc(var(--u)*2)}
+			.bs em{font-style:normal;font-size:calc(var(--u)*11.5);opacity:.55}
+			.btn{flex:none;border:1px solid rgba(244,241,236,.35);border-radius:calc(var(--u)*10);padding:calc(var(--u)*12) calc(var(--u)*20);font-size:calc(var(--u)*13.5);font-weight:600;white-space:nowrap}
+			</style>"
+		displayFolder: 9. HTML
+		lineageTag: 0e2ada02-b5a6-41ec-8101-dfe916ef3609
+
+	/// Página 3 · Categorias: barras com marcador (margem atual x margem do primeiro ano), frete subsidiado a cada R$ 100 e faixa de conclusão. Fonte: scripts/dax/HTML_Categorias.dax
+	measure 'HTML Categorias' =
+			/* Página 3 · Categorias — quem perdeu margem e por quê.
+			   Barras com marcador: barra = margem do último ano, tracinho = margem do primeiro ano. */
+			VAR _anoIni = CALCULATE(MIN(dCalendario[Ano]), ALLSELECTED(dCalendario))
+			VAR _anoFim = CALCULATE(MAX(dCalendario[Ano]), ALLSELECTED(dCalendario))
+			VAR _hero = [_Img Hero Cat]
+			VAR _f1 = "0.0"
+			
+			VAR _cat0 =
+			    ADDCOLUMNS(
+			        VALUES(dProduto[Categoria]),
+			        "@r1", CALCULATE([Receita Líquida], REMOVEFILTERS(dCalendario), dCalendario[Ano] = _anoFim),
+			        "@m0", CALCULATE([Margem %], REMOVEFILTERS(dCalendario), dCalendario[Ano] = _anoIni),
+			        "@m1", CALCULATE([Margem %], REMOVEFILTERS(dCalendario), dCalendario[Ano] = _anoFim),
+			        "@f1", CALCULATE([Frete Subsidiado], REMOVEFILTERS(dCalendario), dCalendario[Ano] = _anoFim),
+			        "@g1", CALCULATE([% Pedidos Frete Grátis], REMOVEFILTERS(dCalendario), dCalendario[Ano] = _anoFim),
+			        "@d1", CALCULATE([Taxa de Devolução], REMOVEFILTERS(dCalendario), dCalendario[Ano] = _anoFim),
+			        "@t1", CALCULATE([Ticket Médio], REMOVEFILTERS(dCalendario), dCalendario[Ano] = _anoFim)
+			    )
+			VAR _cat =
+			    ADDCOLUMNS(
+			        FILTER(_cat0, NOT ISBLANK([@r1])),
+			        "@perd", [@r1] * ([@m0] - [@m1]),
+			        "@fp", DIVIDE([@f1], [@r1]) * 100,
+			        "@dpp", ([@m1] - [@m0]) * 100
+			    )
+			VAR _rTot = SUMX(_cat, [@r1])
+			VAR _pTot = SUMX(_cat, [@perd])
+			VAR _top = TOPN(1, _cat, [@perd], DESC)
+			VAR _topNome = MAXX(_top, dProduto[Categoria])
+			VAR _topShP = DIVIDE(MAXX(_top, [@perd]), _pTot)
+			VAR _topShR = DIVIDE(MAXX(_top, [@r1]), _rTot)
+			VAR _topDpp = MAXX(_top, [@dpp])
+			VAR _quedaMin = -MAXX(_cat, [@dpp])
+			VAR _quedaMax = -MINX(_cat, [@dpp])
+			VAR _maiorQueda = MAXX(TOPN(1, _cat, [@dpp], ASC), dProduto[Categoria])
+			VAR _fpHi = TOPN(1, _cat, [@fp], DESC)
+			VAR _fpHiNome = MAXX(_fpHi, dProduto[Categoria])
+			VAR _fpHiV = MAXX(_fpHi, [@fp])
+			VAR _fpTopV = MAXX(_top, [@fp])
+			VAR _esc = MAXX(_cat, MAX([@m0], [@m1])) * 1.12
+			VAR _fpEsc = MAXX(_cat, [@fp]) * 1.1
+			
+			/* ---------- Barras com marcador (ordem: margem perdida em R$) ---------- */
+			VAR _rank = ADDCOLUMNS(_cat, "@pos", RANKX(_cat, [@perd], , DESC))
+			VAR _barras =
+			    CONCATENATEX(
+			        _rank,
+			        "<div class='br" & IF(dProduto[Categoria] = _topNome, " hi", "") & IF([@pos] <= 3, " dw", "") & "'>"
+			            & "<div class='bn'><b>" & dProduto[Categoria] & "</b><span>" & FORMAT(DIVIDE([@r1], _rTot) * 100, "0", "pt-BR") & "% da receita</span></div>"
+			            & "<div class='bt'><i class='bb' style='width:" & FORMAT(DIVIDE([@m1], _esc) * 100, "0.0", "en-US") & "%'></i>"
+			            & "<i class='bm' style='left:" & FORMAT(DIVIDE([@m0], _esc) * 100, "0.0", "en-US") & "%'></i></div>"
+			            & "<div class='bv'><b>" & FORMAT([@m1] * 100, _f1, "pt-BR") & "%</b><span class='" & IF([@dpp] < 0, "dn", "up") & "'>" & FORMAT([@dpp], "+0.0;−0.0", "pt-BR") & " p.p.</span></div>"
+			            & "<div class='bp'><b>R$ " & FORMAT([@perd] / 1000, "#,##0", "pt-BR") & " mil</b><span>margem perdida</span></div>"
+			            & "<div class='tip'><div class='t1'>" & UPPER(dProduto[Categoria]) & " · " & _anoFim & "</div>"
+			            & "<div class='tl'><span>Receita</span><b>R$ " & FORMAT([@r1] / 1000000, "0.00", "pt-BR") & " Mi</b></div>"
+			            & "<div class='tl'><span>Ticket médio</span><b>R$ " & FORMAT([@t1], "#,##0", "pt-BR") & "</b></div>"
+			            & "<div class='tl'><span>Margem " & _anoIni & " → " & _anoFim & "</span><b>" & FORMAT([@m0] * 100, _f1, "pt-BR") & "% → " & FORMAT([@m1] * 100, _f1, "pt-BR") & "%</b></div>"
+			            & "<div class='tl'><span>Pedidos com frete grátis</span><b>" & FORMAT([@g1] * 100, "0", "pt-BR") & "%</b></div>"
+			            & "<div class='tl'><span>Devolução</span><b>" & FORMAT([@d1] * 100, _f1, "pt-BR") & "%</b></div></div>"
+			            & "</div>",
+			        "",
+			        [@perd], DESC
+			    )
+			
+			/* ---------- Frete subsidiado a cada R$ 100 ---------- */
+			VAR _frete =
+			    CONCATENATEX(
+			        _cat,
+			        "<div class='fq" & IF(dProduto[Categoria] = _fpHiNome, " hi", "") & "'>"
+			            & "<span class='fn'>" & dProduto[Categoria] & "</span>"
+			            & "<div class='ft'><i style='width:" & FORMAT(DIVIDE([@fp], _fpEsc) * 100, "0.0", "en-US") & "%'></i></div>"
+			            & "<b>R$ " & FORMAT([@fp], _f1, "pt-BR") & "</b>"
+			            & "<em>ticket R$ " & FORMAT([@t1], "#,##0", "pt-BR") & "</em></div>",
+			        "",
+			        [@fp], DESC
+			    )
+			
+			/* ---------- Textos ---------- */
+			VAR _titulo = "<em>" & _topNome & "</em> responde por " & FORMAT(_topShP * 100, "0", "pt-BR") & "% da margem que não entrou."
+			VAR _sub =
+			    "Todas as categorias perderam entre " & FORMAT(_quedaMin, _f1, "pt-BR") & " e " & FORMAT(_quedaMax, _f1, "pt-BR") & " p.p. de margem desde " & _anoIni
+			        & ". " & _topNome & " pesa mais porque vende mais: " & FORMAT(_topShR * 100, "0", "pt-BR") & "% da receita de " & _anoFim & "."
+			VAR _nota =
+			    "<b>Itens baratos pagam o frete mais caro.</b> " & _fpHiNome & " gasta R$ " & FORMAT(_fpHiV, _f1, "pt-BR") & " de frete a cada R$ 100 vendidos; "
+			        & _topNome & ", R$ " & FORMAT(_fpTopV, _f1, "pt-BR") & ". O peso do frete cresce quando o ticket médio cai."
+			
+			/* ---------- HTML ---------- */
+			VAR _body =
+			    "<div class='pg'>"
+			    & "<div class='hero'>" & IF(_hero <> "", "<img src='" & _hero & "' alt=''>", "") & "<div class='ov'></div>"
+			    & "<div class='htx'><div class='brand'>LUMA<span>CATEGORIAS · " & _anoIni & "–" & _anoFim & "</span></div><h1>" & _titulo & "</h1><p>" & _sub & "</p></div></div>"
+			    & "<div class='row' style='flex:1'>"
+			    & "<div class='cd' style='flex:1.6'><div class='lb'>MARGEM POR CATEGORIA</div><h2>Todo mundo caiu. " & _topNome & " pesa pelo tamanho.</h2>"
+			    & "<div class='lg'><span><i style='background:#8fd1bd'></i>Margem " & _anoFim & "</span><span><i class='mk2'></i>Margem " & _anoIni & "</span><span>ordenado pela margem perdida em R$</span></div>"
+			    & "<div class='brs'>" & _barras & "</div></div>"
+			    & "<div class='cd' style='flex:1'><div class='lb'>FRETE SUBSIDIADO A CADA R$ 100 · " & _anoFim & "</div><h2>Quem paga o frete grátis.</h2>"
+			    & "<div class='frs'>" & _frete & "</div><div class='nota'>" & _nota & "</div></div>"
+			    & "</div>"
+			    & "<div class='bd'>"
+			    & "<div class='bx'><h3><em>" & _topNome & "</em> concentra o valor. Os itens baratos, o problema.</h3><p>Rever o frete grátis só para " & _topNome & " recupera a maior fatia em reais; subir o mínimo protege as categorias de ticket baixo.</p></div>"
+			    & "<div class='bs'><span>MARGEM PERDIDA EM " & _anoFim & "</span><b>R$ " & FORMAT(_pTot / 1000000, "0.00", "pt-BR") & " Mi</b><em>vs margem de cada categoria em " & _anoIni & "</em></div>"
+			    & "<div class='bs'><span>FRETE MAIS CARO / R$ 100</span><b>" & _fpHiNome & " · R$ " & FORMAT(_fpHiV, _f1, "pt-BR") & "</b><em>" & _topNome & ": R$ " & FORMAT(_fpTopV, _f1, "pt-BR") & "</em></div>"
+			    & "<div class='btn'>← Voltar ao diagnóstico</div>"
+			    & "</div>"
+			    & "</div>"
+			
+			RETURN [_CSS Categorias] & _body
+		displayFolder: 9. HTML
+		lineageTag: de135419-67be-4799-b228-5a227831d626
+
 	column x
 		isNameInferred
 		sourceColumn: [x]
