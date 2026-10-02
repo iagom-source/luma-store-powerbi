@@ -129,8 +129,10 @@ table _Medidas
 		displayFolder: 3. Margem
 		lineageTag: 98eedcdd-bc1c-4330-ab1c-b020e9b6598a
 
-	/// Capa do relatório: imagem animada (WebP/GIF) de fundo + manchete + 3 KPIs dinâmicos. Usar no visual HTML Content (não aceita <video> nem JS).
+	/// Capa do relatório: imagem animada (WebP) de fundo + manchete + 3 KPIs dinâmicos + botões de navegação desenhados (botões nativos transparentes por cima). Fonte: scripts/dax/HTML_Capa.dax
 	measure 'HTML Capa' =
+			/* Capa · fundo WebP animado embutido (dMidia) + manchete + 3 KPIs + botões de navegação.
+			   Os botões são só desenho: a navegação é feita por botões nativos transparentes por cima. */
 			VAR _anoIni = CALCULATE(MIN(dCalendario[Ano]), ALLSELECTED(dCalendario))
 			VAR _anoFim = CALCULATE(MAX(dCalendario[Ano]), ALLSELECTED(dCalendario))
 			VAR _recIni = CALCULATE([Receita Líquida], REMOVEFILTERS(dCalendario), dCalendario[Ano] = _anoIni)
@@ -171,9 +173,12 @@ table _Medidas
 			.k .l{font-size:10px;letter-spacing:.25em;text-transform:uppercase;opacity:.72;margin-top:6px;font-weight:600}
 			.k .n{font-size:12px;opacity:.55;margin-top:6px}
 			.k.neg .v,.k.neg .l{color:#f08a6c}
+			.nav{position:absolute;bottom:5.5%;left:0;right:0;display:flex;justify-content:center;gap:clamp(10px,1.3vw,22px)}
+			.nb{min-width:clamp(190px,17vw,300px);text-align:center;border:1px solid rgba(244,241,236,.32);background:rgba(17,12,9,.5);border-radius:10px;padding:clamp(9px,.95vw,15px) clamp(16px,1.7vw,28px);font-size:clamp(12px,1.05vw,17px);font-weight:600}
+			.nb span{color:#f0b48a;margin-right:8px}
 			@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-			.a1,.a2,.a3,.a4,.a5{animation:up 1s ease both}
-			.a2{animation-delay:.25s}.a3{animation-delay:.5s}.a4{animation-delay:.8s}.a5{animation-delay:1.1s}
+			.a1,.a2,.a3,.a4,.a5,.a6{animation:up 1s ease both}
+			.a2{animation-delay:.25s}.a3{animation-delay:.5s}.a4{animation-delay:.8s}.a5{animation-delay:1.1s}.a6{animation-delay:1.4s}
 			</style>"
 			
 			VAR _fundo = IF(_url <> "", "<img class='bg' src='" & _url & "' alt=''>", "")
@@ -192,7 +197,9 @@ table _Medidas
 			    & "<div class='k a4'><div class='v'>R$ " & _fMi & " Mi</div><div class='l'>Receita " & _anoFim & "</div><div class='n'>" & _fCresc & "% vs " & _anoIni & "</div></div>"
 			    & "<div class='k a4'><div class='v'>" & _fMFim & "%</div><div class='l'>Margem " & _anoFim & "</div><div class='n'>era " & _fMIni & "% em " & _anoIni & "</div></div>"
 			    & "<div class='k neg a5'><div class='v'>R$ " & _fPerd & " Mi</div><div class='l'>Margem que não entrou</div><div class='n'>vs margem de " & _anoIni & "</div></div>"
-			    & "</div></div>"
+			    & "</div>"
+			    & "<div class='nav a6'><div class='nb'>Para onde foi a margem</div><div class='nb'>Onde o frete pesa</div></div>"
+			    & "</div>"
 			
 			RETURN _css & _body
 		displayFolder: 9. HTML
