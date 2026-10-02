@@ -1,0 +1,109 @@
+/// Itens de pedido 2023-2025 (grão: pedido x item)
+table fVendas
+	lineageTag: 9081cec5-32d1-4f1d-afca-c13fb02d10d9
+
+	column ID_Pedido
+		dataType: string
+		lineageTag: b7e38b84-c561-4b2a-aac3-46b735a789cd
+		sourceColumn: ID_Pedido
+
+	column Item
+		dataType: int64
+		lineageTag: 14539fac-52f6-46f7-9ccc-8a2d2e41186e
+		sourceColumn: Item
+
+	column Data_Pedido
+		dataType: dateTime
+		lineageTag: 2d203260-23be-4df2-a13d-0497e6eb3957
+		sourceColumn: Data_Pedido
+
+	column ID_Cliente
+		dataType: string
+		lineageTag: d98a31ba-49dd-496f-b109-1b3ade3276cd
+		sourceColumn: ID_Cliente
+
+	column ID_Produto
+		dataType: string
+		lineageTag: 463dc420-2804-4af6-b5fc-8173554324ce
+		sourceColumn: ID_Produto
+
+	column Canal
+		dataType: string
+		lineageTag: ec7486c8-6784-4449-b0eb-00b95860e156
+		sourceColumn: Canal
+
+	column Qtd
+		dataType: int64
+		lineageTag: 8249e58a-7b79-4f31-99b7-9dcc2d6c032a
+		sourceColumn: Qtd
+
+	column Preco_Unit
+		dataType: double
+		lineageTag: c22422b1-f7b3-4275-9114-bbcbd350e936
+		sourceColumn: Preco_Unit
+
+	column Desconto_Pct
+		dataType: double
+		lineageTag: 2d515bfb-1412-49fd-8c41-7748210f1670
+		sourceColumn: Desconto_Pct
+
+	column Receita_Bruta
+		dataType: double
+		lineageTag: f5a169e3-1765-4509-a0db-490fb23e0958
+		sourceColumn: Receita_Bruta
+
+	column Desconto_Valor
+		dataType: double
+		lineageTag: 4bfdf872-6bd6-45aa-81f9-69002e3de26c
+		sourceColumn: Desconto_Valor
+
+	column Receita_Liquida
+		dataType: double
+		lineageTag: cd157df9-cf48-4342-92be-5650fae96133
+		sourceColumn: Receita_Liquida
+
+	column CMV
+		dataType: double
+		lineageTag: fb78bd94-1577-443d-89f4-499f318129a6
+		sourceColumn: CMV
+
+	column Frete_Cobrado
+		dataType: double
+		lineageTag: cc80584f-1db3-49de-8446-8ee37fb8c693
+		sourceColumn: Frete_Cobrado
+
+	column Frete_Custo
+		dataType: double
+		lineageTag: e6af4895-3bcf-4ea7-98a1-27e614ffc5f2
+		sourceColumn: Frete_Custo
+
+	column Comissao_Marketplace
+		dataType: double
+		lineageTag: 48b28b0f-7246-48ad-997f-adc139348967
+		sourceColumn: Comissao_Marketplace
+
+	column Frete_Gratis
+		dataType: string
+		lineageTag: 6b4c6eb4-58b4-4111-82df-1013399997fc
+		sourceColumn: Frete_Gratis
+
+	column Status
+		dataType: string
+		lineageTag: dc3e9336-d38b-4b02-91ee-475792bdc2cd
+		sourceColumn: Status
+
+	column Prazo_Entrega_Dias
+		dataType: int64
+		lineageTag: ce1876cb-5e60-4a9b-a33a-4e99d94ec00a
+		sourceColumn: Prazo_Entrega_Dias
+
+	partition fVendas = m
+		mode: import
+		source =
+				let
+				    Fonte = Csv.Document(File.Contents(PastaDados & "fVendas.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Cabecalho = Table.PromoteHeaders(Fonte, [PromoteAllScalars = true]),
+				    Tipos = Table.TransformColumnTypes(Cabecalho, {{"ID_Pedido", type text}, {"Item", Int64.Type}, {"Data_Pedido", type date}, {"ID_Cliente", type text}, {"ID_Produto", type text}, {"Canal", type text}, {"Qtd", Int64.Type}, {"Preco_Unit", type number}, {"Desconto_Pct", type number}, {"Receita_Bruta", type number}, {"Desconto_Valor", type number}, {"Receita_Liquida", type number}, {"CMV", type number}, {"Frete_Cobrado", type number}, {"Frete_Custo", type number}, {"Comissao_Marketplace", type number}, {"Frete_Gratis", type text}, {"Status", type text}, {"Prazo_Entrega_Dias", Int64.Type}}, "en-US")
+				in
+				    Tipos
+

@@ -1,0 +1,39 @@
+/// Clientes da LUMA Store (anonimizados)
+table dCliente
+	lineageTag: 79de81da-ae0a-4ecb-bd0e-9c191e45bdbf
+
+	column ID_Cliente
+		dataType: string
+		lineageTag: 936cd4b9-c330-4340-9045-4edcca25151e
+		sourceColumn: ID_Cliente
+
+	column UF
+		dataType: string
+		lineageTag: c4893f6d-193a-4f35-8304-0d062e60d4af
+		sourceColumn: UF
+
+	column Regiao
+		dataType: string
+		lineageTag: 2660ccde-dfa0-4fda-9701-37749c3d044f
+		sourceColumn: Regiao
+
+	column Faixa_Etaria
+		dataType: string
+		lineageTag: e1ca1417-c0cd-4826-a9e9-1f480b9a4afb
+		sourceColumn: Faixa_Etaria
+
+	column Data_Cadastro
+		dataType: dateTime
+		lineageTag: e9fbf826-c8fa-4fff-8a91-16291028b578
+		sourceColumn: Data_Cadastro
+
+	partition dCliente = m
+		mode: import
+		source =
+				let
+				    Fonte = Csv.Document(File.Contents(PastaDados & "dCliente.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Cabecalho = Table.PromoteHeaders(Fonte, [PromoteAllScalars = true]),
+				    Tipos = Table.TransformColumnTypes(Cabecalho, {{"ID_Cliente", type text}, {"UF", type text}, {"Regiao", type text}, {"Faixa_Etaria", type text}, {"Data_Cadastro", type date}}, "en-US")
+				in
+				    Tipos
+

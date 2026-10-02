@@ -1,0 +1,12 @@
+relationship fVendas_Data_Pedido_dCalendario_Date
+	fromColumn: fVendas.Data_Pedido
+	toColumn: dCalendario.Date
+
+relationship fVendas_ID_Produto_dProduto_ID_Produto
+	fromColumn: fVendas.ID_Produto
+	toColumn: dProduto.ID_Produto
+
+relationship fVendas_ID_Cliente_dCliente_ID_Cliente
+	fromColumn: fVendas.ID_Cliente
+	toColumn: dCliente.ID_Cliente
+

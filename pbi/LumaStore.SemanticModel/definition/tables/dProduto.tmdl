@@ -1,0 +1,44 @@
+/// Catálogo de produtos da LUMA Store
+table dProduto
+	lineageTag: b199e4bf-e8d1-4729-974d-87dad3e34d43
+
+	column ID_Produto
+		dataType: string
+		lineageTag: d445f0bf-f8b9-4908-b52b-4171de2931eb
+		sourceColumn: ID_Produto
+
+	column Produto
+		dataType: string
+		lineageTag: c8de03b6-d457-4b03-a12d-4c08345977b3
+		sourceColumn: Produto
+
+	column Categoria
+		dataType: string
+		lineageTag: 644312f0-eb3b-4ee6-9c0f-d3cc674296b6
+		sourceColumn: Categoria
+
+	column Marca
+		dataType: string
+		lineageTag: c90249ef-644f-4784-a624-0fd1bf75814d
+		sourceColumn: Marca
+
+	column Preco_Lista
+		dataType: double
+		lineageTag: bbac9861-d132-4d41-817d-012d6c4843c5
+		sourceColumn: Preco_Lista
+
+	column Custo_Unit
+		dataType: double
+		lineageTag: 5c3b506f-dfae-4cec-9af6-fb2f4fc6ad4b
+		sourceColumn: Custo_Unit
+
+	partition dProduto = m
+		mode: import
+		source =
+				let
+				    Fonte = Csv.Document(File.Contents(PastaDados & "dProduto.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Cabecalho = Table.PromoteHeaders(Fonte, [PromoteAllScalars = true]),
+				    Tipos = Table.TransformColumnTypes(Cabecalho, {{"ID_Produto", type text}, {"Produto", type text}, {"Categoria", type text}, {"Marca", type text}, {"Preco_Lista", type number}, {"Custo_Unit", type number}}, "en-US")
+				in
+				    Tipos
+

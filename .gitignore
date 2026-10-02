@@ -1,0 +1,13 @@
+# Power BI (cache local e configurações da máquina)
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+
+# Vídeos brutos (pesados; o fundo final vai em dados/dMidia.csv e midia/*.webp)
+midia/*.mp4
+
+# Prévias locais geradas durante o desenvolvimento
+preview/
+
+# Python
+__pycache__/
+*.pyc

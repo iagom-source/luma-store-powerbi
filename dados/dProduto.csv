@@ -1,0 +1,46 @@
+ID_Produto,Produto,Categoria,Marca,Preco_Lista,Custo_Unit
+P001,Rack Nórdico,Móveis,Madeirar,1675.9,1166.42
+P002,Mesa Lateral Oslo,Móveis,Casa Viva,882.9,598.32
+P003,Poltrona Bossa,Móveis,Casa Viva,1750.9,975.69
+P004,Aparador Ripado,Móveis,Casa Viva,1576.9,1095.81
+P005,Cadeira Eames Off-white,Móveis,Casa Viva,829.9,513.83
+P006,Estante Modular,Móveis,Madeirar,1518.9,889.22
+P007,Banqueta Alta Pinus,Móveis,Casa Viva,833.9,505.11
+P008,Escrivaninha Compacta,Móveis,Madeirar,1915.9,1292.19
+P009,Vaso Cerâmica Areia,Decoração,Ponto Raro,124.9,59.34
+P010,Quadro Abstrato 60x90,Decoração,Ponto Raro,64.9,28.5
+P011,Espelho Redondo 70cm,Decoração,Atelier Sul,251.9,101.62
+P012,Cesto Fibra Natural,Decoração,Ponto Raro,222.9,92.33
+P013,Vela Aromática Cedro,Decoração,Ponto Raro,58.9,26.69
+P014,Almofada Linho,Decoração,Atelier Sul,183.9,71.22
+P015,"Tapete Sisal 1,5m",Decoração,Atelier Sul,204.9,77.11
+P016,Bandeja Espelhada,Decoração,Ponto Raro,253.9,91.75
+P017,Escultura Mãos,Decoração,Ponto Raro,108.9,43.37
+P018,Relógio de Parede Minimal,Decoração,Ponto Raro,79.9,35.41
+P019,Jogo de Lençol 300 fios,Cama & Banho,Algodão Bom,312.9,141.0
+P020,Edredom Queen Pluma,Cama & Banho,Algodão Bom,278.9,148.55
+P021,Toalha Banhão Algodão Egípcio,Cama & Banho,Algodão Bom,117.9,58.87
+P022,Kit Travesseiros Nasa,Cama & Banho,Algodão Bom,306.9,130.48
+P023,Manta Tricot,Cama & Banho,Sono Leve,141.9,78.74
+P024,Roupão Waffle,Cama & Banho,Sono Leve,203.9,112.02
+P025,Tapete de Banho Bolinhas,Cama & Banho,Sono Leve,135.9,65.25
+P026,Jogo de Panelas Cerâmica,Cozinha,Mesa Posta,99.9,60.71
+P027,Faqueiro Inox 24pç,Cozinha,Mesa Posta,395.9,222.28
+P028,Aparelho de Jantar 20pç,Cozinha,Panela Feliz,206.9,97.33
+P029,Cafeteira Prensa Francesa,Cozinha,Panela Feliz,279.9,172.27
+P030,Tábua de Corte Teca,Cozinha,Panela Feliz,451.9,273.65
+P031,Jogo de Taças Cristal,Cozinha,Panela Feliz,417.9,235.05
+P032,Pote Hermético Kit 5,Cozinha,Mesa Posta,217.9,116.5
+P033,Air Fryer 4L,Cozinha,Panela Feliz,288.9,137.12
+P034,Luminária de Piso Arco,Iluminação,Atelier Sul,627.9,352.67
+P035,Pendente Cúpula Rattan,Iluminação,Atelier Sul,700.9,368.37
+P036,Abajur Cerâmica,Iluminação,Atelier Sul,425.9,216.1
+P037,Fita LED 5m Smart,Iluminação,Luz & Cia,866.9,397.11
+P038,Arandela Industrial,Iluminação,Luz & Cia,783.9,417.23
+P039,Lâmpada Filamento Vintage,Iluminação,Luz & Cia,194.9,89.26
+P040,Vaso Autoirrigável,Jardim,Verde Casa,237.9,124.14
+P041,Kit Jardinagem 5pç,Jardim,Ponto Raro,354.9,163.04
+P042,Cachepot Cimento,Jardim,Verde Casa,110.9,62.27
+P043,Horta Vertical,Jardim,Verde Casa,55.9,29.19
+P044,Regador Metal,Jardim,Verde Casa,372.9,191.96
+P045,Ombrelone 2m,Jardim,Verde Casa,70.9,37.15

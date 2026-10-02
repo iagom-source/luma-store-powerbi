@@ -1,0 +1,35 @@
+/// Imagens animadas (WebP) em base64 fatiado em partes de 30 mil caracteres. Gerada por scripts/midia_para_pbi.py
+table dMidia
+	isHidden
+	lineageTag: f9045948-693c-4b36-be49-c49fd828aafa
+
+	column Midia
+		dataType: string
+		lineageTag: be120712-b1d0-4e4b-8b54-0d207a9b956c
+		sourceColumn: Midia
+
+	column Tipo
+		dataType: string
+		lineageTag: 3476f3c7-efb5-433a-b0e3-ad08a3dedced
+		sourceColumn: Tipo
+
+	column Ordem
+		dataType: int64
+		lineageTag: 7e87ca63-159d-4f44-b61b-a414cb0926a3
+		sourceColumn: Ordem
+
+	column Parte
+		dataType: string
+		lineageTag: d5ecf041-a1aa-46cd-bdf0-c049891a4321
+		sourceColumn: Parte
+
+	partition dMidia = m
+		mode: import
+		source =
+				let
+				    Fonte = Csv.Document(File.Contents(PastaDados & "dMidia.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Cabecalho = Table.PromoteHeaders(Fonte, [PromoteAllScalars = true]),
+				    Tipos = Table.TransformColumnTypes(Cabecalho, {{"Midia", type text}, {"Tipo", type text}, {"Ordem", Int64.Type}, {"Parte", type text}}, "en-US")
+				in
+				    Tipos
+

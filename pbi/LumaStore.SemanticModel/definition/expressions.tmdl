@@ -1,0 +1,4 @@
+/// Pasta com os CSVs do projeto (termina com \). Troque ao clonar o repositório.
+expression PastaDados = "C:\Users\Usuario\.claude\projects\Projetos\luma-store\dados\" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 4c9016e8-c468-4a7c-a1bf-e56544d1d704
+
